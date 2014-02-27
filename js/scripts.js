@@ -1,4 +1,21 @@
+var Game = {
+  initialize: function() {
+    this.player1 = Player.create("X");
+    this.player2 = Player.create("O");
+    this.gameBoard = Board.initialize();
+  }
+};
 
+var Board = {
+  initialize: function() {
+    this.boardSpaces = [];
+    for (var x = 1; x <= 3; x++) {
+      for (var y = 1; y <= 3; y++) {
+        this.boardSpaces.push(Space.create(x,y));
+      }
+    }
+  }
+};
 
 var Space = {
   create: function (xCoord, yCoord) {
@@ -19,14 +36,13 @@ var Space = {
 };
 
 var Player = {
-  create: function (playerName, playerValue) {
+  create: function (playerValue) {
     var player = Object.create(Player);
-    player.initialize(playerName, playerValue);
+    player.initialize(playerValue);
     return player;
   },
 
-  initialize: function (playerName, playerValue) {
-    this.playerName  = playerName;
+  initialize: function (playerValue) {
     this.playerValue = playerValue;
   }
 };
