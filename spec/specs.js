@@ -3,11 +3,16 @@ describe("Game", function() {
     it("creates the board and two players when it is initialized", function() {
       var testGame = Object.create(Game);
       testGame.initialize();
-      // testGame.gameBoard.length.should.equal(9);
-      testGame.player1.should.equal("X");
-      testGame.player2.should.equal("O");
+      testGame.player1.playerValue.should.equal("X");
+      testGame.player2.playerValue.should.equal("O");
+      testGame.gameBoard.boardSpaces[0].xCoord.should.eql(1);
     });
   });
+  // describe("winCondition", function() {
+  //   it("checks if all three spaces horizonally, vertically, or diagonally are marked by the same player", function() {
+
+  //   });
+  // });
 });
 
 describe("Board", function() {
@@ -15,7 +20,6 @@ describe("Board", function() {
     it("creates 9 spaces when it is initialized", function() {
       var testBoard = Object.create(Board);
       testBoard.initialize();
-      console.log(testBoard.boardSpaces);
       testBoard.boardSpaces.length.should.equal(9);
     });
   });
