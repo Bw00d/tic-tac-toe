@@ -5,14 +5,33 @@ describe("Game", function() {
       testGame.initialize();
       testGame.player1.playerValue.should.equal("X");
       testGame.player2.playerValue.should.equal("O");
-      testGame.gameBoard.boardSpaces[0].xCoord.should.eql(1);
+      testGame.gameBoard.boardSpaces[0].square.should.eql(1);
     });
-  });
+    it("creates arraysfor player moves", function() {
+      var testGame = Object.create(Game);
+      testGame.initialize();
+      testGame.moves.should.eql([]);
+    });
+    it("push the square to the appropriate player array", function() {
+      var testGame  = Object.create(Game);
+      testGame.initialize();
+      testGame.gameBoard.boardSpaces[0].markBy(testGame.player1);
+      testGame.player1.moves.length.should.equal(1);
+    });
   // describe("winCondition", function() {
-  //   it("checks if all three spaces horizonally, vertically, or diagonally are marked by the same player", function() {
-
+  //   it("checks if any player is on three consecutive spaces", function() {
+  //     var testWin =
   //   });
-  // });
+  });
+  describe("findSpace", function() {
+    it("takes the user click and marks that spot for them", function() {
+      var testGame = Object.create(Game);
+      var testSpace = testGame.gameBoard.boardSpaces[1]
+      testGame.initialize();
+      testGame.findSpace(2).should.equal(player);
+
+    })
+  })
 });
 
 describe("Board", function() {
@@ -27,17 +46,16 @@ describe("Board", function() {
 
 describe("Space", function() {
   describe("initialize", function() {
-    it("is initialized with an x and y coordinate", function() {
+    it("is initialized with a number", function() {
       var testSpace = Object.create(Space);
-      testSpace.initialize(1, 2);
-      testSpace.xCoord.should.equal(1);
-      testSpace.yCoord.should.equal(2);
+      testSpace.initialize(2);
+      testSpace.square.should.equal(2);
     });
   });
 
   describe("create", function() {
     it("should initialze a space", function() {
-      var testSpace = Space.create(1, 2);
+      var testSpace = Space.create(2);
       Space.isPrototypeOf(testSpace).should.equal(true);
     });
   });
@@ -45,9 +63,10 @@ describe("Space", function() {
   describe("markBy", function() {
     it("lets a player mark the space", function() {
       var testPlayer = Player.create("X");
-      var testSpace = Space.create(1, 2);
+      var testSpace = Space.create(2);
       testSpace.markBy(testPlayer);
       testSpace.markedBy.should.equal(testPlayer);
+      console.log(testSpace.markedBy);
     });
   });
 });

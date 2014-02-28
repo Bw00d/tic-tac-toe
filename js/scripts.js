@@ -4,6 +4,7 @@ var Game = {
     this.player2 = Player.create("O");
     this.gameBoard = Object.create(Board);
     this.gameBoard.initialize();
+
   }
 };
 // make a win condition. idea: x = 6  && y = 6  is diagonal
@@ -19,29 +20,27 @@ var Game = {
 var Board = {
   initialize: function() {
     this.boardSpaces = [];
-    for (var x = 1; x <= 3; x++) {
-      for (var y = 1; y <= 3; y++) {
-        this.boardSpaces.push(Space.create(x,y));
-      }
+    for (var square = 1; square <= 9; square++) {
+      this.boardSpaces.push(Space.create(square));
     }
   }
 };
 
 var Space = {
-  create: function (xCoord, yCoord) {
+  create: function (square) {
     var space = Object.create(Space);
-    space.initialize(xCoord, yCoord);
+    space.initialize(square);
     return space;
   },
 
-  initialize: function (xCoord, yCoord) {
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
+  initialize: function (square) {
+    this.square = square;
     this.markedBy;
   },
 
   markBy: function (player) {
     this.markedBy = player;
+    player.moves.push(this.square);
   }
 };
 
@@ -54,6 +53,7 @@ var Player = {
 
   initialize: function (playerValue) {
     this.playerValue = playerValue;
+    this.moves = [];
   }
 };
 
