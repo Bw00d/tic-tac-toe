@@ -5,18 +5,26 @@ var Game = {
     this.gameBoard = Object.create(Board);
     this.gameBoard.initialize();
 
+    this.turnCounter = 1;
+    this.whoseTurn = "X";
+
+  },
+  turn: function() {
+
+    if (this.turnCounter <= 9) {
+      if (this.turnCounter % 2 === 0) {
+        this.whoseTurn = "O";
+      } else {
+        this.whoseTurn ="X";
+      }
+      this.turnCounter++
+    } else {
+      return "Cat's Game";
+   }
   }
+
 };
-// make a win condition. idea: x = 6  && y = 6  is diagonal
-// all x are equal === horizontal.  if all y are equal === vertical
 
-// make a turn determiner when boardspace.length is odd == player1(X) turn.
-// eve is player2(O)  turn.
-
-// make a play function to take coordinates and put them in their space.
-// jquery it.
-
-// see bottom for partial code
 var Board = {
   initialize: function() {
     this.boardSpaces = [];
@@ -27,20 +35,36 @@ var Board = {
 };
 
 var Space = {
+  all: [],
+    initialize: function (square) {
+    this.square = square;
+    this.markedBy;
+  },
   create: function (square) {
     var space = Object.create(Space);
     space.initialize(square);
+    Space.all.push(space);
     return space;
   },
+  findSpace: function(number) {
+   var result;
 
-  initialize: function (square) {
-    this.square = square;
-    this.markedBy;
+   for(var i = 0; i < 9; i++) {
+    if (Space.all[i].square === number) {
+      result = Space.all[i];
+    } else {
+      result = false;
+    };
+     return result;
+   };
+
+   console.log(result);
   },
 
   markBy: function (player) {
     this.markedBy = player;
     player.moves.push(this.square);
+
   }
 };
 
@@ -57,21 +81,14 @@ var Player = {
   }
 };
 
-// describe("whoseMove", function() {
-  //   it("decides whose move it is", function() {
-  //     testGame.whoseMove(9).should.equal("X");
-  //   });
-  // });
+$(document).ready(function() {
+  var game = Object.create(Game);
+  var winningCombo = [[1,2.3],[4,5,6],[7,8,9],
+                      [1,4,7],[2,5,8],[3,6,9],
+                      [1,5,9],[3,5,7]];
 
-
-  // describe("play", function() {
-  //   it("should assign an X or an O to a space", function() {
-  //     testGame.play(1,2).should.eql(boardSpaces[1]);
-  //   });
-  // });
-  // describe("winCondition", function() {
-  //   it("checks if all three spaces horizonally, vertically, or diagonally are marked by the same player", function() {
-
-  //   });
-  // });
-
+  $('.spaces').click(function() {
+    var clickedCell = $(this).data('cell');
+    Space.markBy();
+  });
+});

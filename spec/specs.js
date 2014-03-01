@@ -7,31 +7,27 @@ describe("Game", function() {
       testGame.player2.playerValue.should.equal("O");
       testGame.gameBoard.boardSpaces[0].square.should.eql(1);
     });
-    it("creates arraysfor player moves", function() {
-      var testGame = Object.create(Game);
-      testGame.initialize();
-      testGame.moves.should.eql([]);
-    });
     it("push the square to the appropriate player array", function() {
       var testGame  = Object.create(Game);
       testGame.initialize();
       testGame.gameBoard.boardSpaces[0].markBy(testGame.player1);
-      testGame.player1.moves.length.should.equal(1);
+      testGame.gameBoard.boardSpaces[1].markBy(testGame.player1);
+      testGame.gameBoard.boardSpaces[2].markBy(testGame.player1);
+      testGame.player1.moves[0].should.equal(1);
+      testGame.player1.moves[2].should.equal(3);
+      testGame.player1.moves.should.eql([1,2,3])
     });
-  // describe("winCondition", function() {
-  //   it("checks if any player is on three consecutive spaces", function() {
-  //     var testWin =
-  //   });
   });
-  describe("findSpace", function() {
-    it("takes the user click and marks that spot for them", function() {
+  describe("turn", function() {
+    it("determines which players move it is", function() {
       var testGame = Object.create(Game);
-      var testSpace = testGame.gameBoard.boardSpaces[1]
       testGame.initialize();
-      testGame.findSpace(2).should.equal(player);
+      testGame.turn();
+      testGame.turn();
+      testGame.turnCounter.should.equal(3);
 
-    })
-  })
+    });
+  });
 });
 
 describe("Board", function() {
@@ -66,7 +62,12 @@ describe("Space", function() {
       var testSpace = Space.create(2);
       testSpace.markBy(testPlayer);
       testSpace.markedBy.should.equal(testPlayer);
-      console.log(testSpace.markedBy);
+    });
+  });
+  describe("findSpace", function() {
+    it("takes the user click and marks that spot for them", function() {
+      var testSpace = Space.create([1], "X");
+      Space.findSpace([1]).should.equal(testSpace);
     });
   });
 });
